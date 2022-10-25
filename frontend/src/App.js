@@ -36,6 +36,7 @@ const App = () => {
       console.log("Found an authorized account: ", account);
       setCurrentAccount(account);
       setupEventListener();
+      checkChainId(ethereum);
     } else {
       console.log("No authorized account found!");
     }
@@ -54,8 +55,19 @@ const App = () => {
       console.log("Connected: ", accounts[0]);
       setCurrentAccount(accounts[0]);
       setupEventListener();
+      checkChainId(ethereum);
     } catch (error) {
       console.log(error);
+    }
+  }
+
+  const checkChainId = async (ethereum) => {
+    let chainId = await ethereum.request({ method: 'eth_chainId' });
+    console.log("Connected to chain: " + chainId);
+
+    const goerliChainId = "0x5";
+    if (chainId !== goerliChainId) {
+      alert("You are not connected to the Goerli Test Network!");
     }
   }
 
